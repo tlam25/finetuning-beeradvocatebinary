@@ -1,0 +1,24 @@
+# Secrets — NEVER commit
+.env
+.env.*
+!.env.example
+
+# Training outputs
+outputs/
+checkpoints/
+wandb/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
