@@ -22,3 +22,6 @@ venv/
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Macos
+*.DS_Store
