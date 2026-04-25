@@ -31,14 +31,14 @@ case "${MODEL}" in
     bart)
         TRAIN_SCRIPT="src/train_bart.py"
         CHECKPOINT="facebook/bart-large"
-        WANDB_PROJECT="BeerAdvocate-BartLarge-LoRA-4aspects-3runs"
+        WANDB_PROJECT="BeerAdvocate-BartLarge-LoRA-4aspects"
         # BART-large OK với bf16 (A100/H100) hoặc fp16 (V100/T4).
         PRECISION_FLAG="--bf16"
         ;;
     t5)
         TRAIN_SCRIPT="src/train_t5.py"
         CHECKPOINT="t5-large"
-        WANDB_PROJECT="BeerAdvocate-T5Large-LoRA-4aspects-3runs"
+        WANDB_PROJECT="BeerAdvocate-T5Large-LoRA-4aspects"
         # T5-large fp16 hay NaN → bf16 nếu GPU hỗ trợ, ngược lại fp32.
         PRECISION_FLAG="--bf16"
         # PRECISION_FLAG=""   # fp32 cho T4/V100 để tránh NaN
