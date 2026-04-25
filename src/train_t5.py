@@ -176,12 +176,19 @@ def main():
         )
         label_ids = labels_tokenized["input_ids"]
         bos_id = tokenizer.bos_token_id
-        cleaned = []
         pad_id = tokenizer.pad_token_id
+        
+        cleaned = []
+        for seq in label_ids:
+            if bos_id is not None and len(seq) > 0 and seq[0] == bos_id:
+                seq = seq[1:] + [pad_id]
+            cleaned.append(seq)
+        
         cleaned = [
             [-100 if tok == pad_id else tok for tok in seq]
             for seq in cleaned
         ]
+
         model_inputs["labels"] = cleaned
 
         return model_inputs
@@ -200,8 +207,7 @@ def main():
 
     data_collator = DataCollatorForSeq2Seq(
         tokenizer=tokenizer,
-        model=None,  # BART tự xử lý shift_tokens_right trong forward. Tránh
-                     # truyền string (silent no-op với collator).
+        model=None,
         padding=True,
         return_tensors="pt",
     )
