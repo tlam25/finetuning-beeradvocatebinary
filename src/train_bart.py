@@ -91,7 +91,7 @@ def parse_args():
 
     # Wandb
     p.add_argument("--wandb_project",
-                   default="BeerAdvocate-BartLarge-LoRA")
+                   default="BeerAdvocate-BartLarge-LoRA-4aspects")
     p.add_argument("--wandb_run_name", default=None,
                    help="Mặc định: {aspect}-seed-{seed}.")
     p.add_argument("--report_to", default="wandb",
@@ -171,11 +171,13 @@ def main():
         label_ids = labels_tokenized["input_ids"]
         bos_id = tokenizer.bos_token_id
         cleaned = []
-        for seq in label_ids:
-            if len(seq) > 0 and seq[0] == bos_id:
-                seq = seq[1:] + [tokenizer.pad_token_id]
-            cleaned.append(seq)
+        pad_id = tokenizer.pad_token_id
+        cleaned = [
+            [-100 if tok == pad_id else tok for tok in seq]
+            for seq in cleaned
+        ]
         model_inputs["labels"] = cleaned
+
         return model_inputs
 
     tokenized = raw.map(
@@ -308,6 +310,7 @@ def main():
         data_seed=args.seed,
         dataloader_num_workers=args.dataloader_num_workers,
         ddp_find_unused_parameters=False,
+        generation_num_beams=args.num_beams,
     )
 
     gen_config = GenerationConfig(
@@ -326,7 +329,7 @@ def main():
         data_collator=data_collator,
         compute_metrics=compute_metrics,
     )
-    trainer.generation_config = gen_config
+    # trainer.generation_config = gen_config
 
     # ----- Resume logic ----- #
     ckpt_dir = output_dir / "checkpoints"

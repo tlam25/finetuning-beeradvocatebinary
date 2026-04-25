@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Train aspect = appearance.
+# Train aspect = aroma.
 #
 # Biến môi trường có thể override (hoặc đặt trong .env):
 #     MODEL            bart | t5     (default: bart)
@@ -11,9 +11,9 @@
 #
 # Mặc định đọc .env ở thư mục gốc của repo. Ví dụ chạy:
 #     cp .env.example .env && vim .env        # điền 3 giá trị
-#     bash scripts/run_appearance.sh          # BART, seed 999
-#     MODEL=t5 bash scripts/run_appearance.sh # T5, seed 999
-#     NPROC_PER_NODE=4 bash scripts/run_appearance.sh
+#     bash scripts/run_aroma.sh          # BART, seed 999
+#     MODEL=t5 bash scripts/run_aroma.sh # T5, seed 999
+#     NPROC_PER_NODE=4 bash scripts/run_aroma.sh
 
 set -euo pipefail
 
